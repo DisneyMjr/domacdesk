@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+if [ "$1" = configure ]; then
+
+	INITSYS=$(ls -al /proc/1/exe | awk -F' ' '{print $NF}' | awk -F'/' '{print $NF}')
+	ln -f -s /usr/share/DisneyMjr/domacdesk /usr/bin/domacdesk
+
+	if [ "systemd" == "$INITSYS" ]; then
+
+		if [ -e /etc/systemd/system/domacdesk.service ]; then
+			rm -f /etc/systemd/system/domacdesk.service /usr/lib/systemd/system/domacdesk.service /usr/lib/systemd/user/domacdesk.service >/dev/null  2>&1
+		fi
+		mkdir -p /usr/lib/systemd/system/
+		cp /usr/share/domacdesk/files/systemd/domacdesk.service /usr/lib/systemd/system/domacdesk.service
+		# try fix error in Ubuntu 18.04
+		# Failed to reload domacdesk.service: Unit domacdesk.service is not loaded properly: Exec format error.
+		# /usr/lib/systemd/system/domacdesk.service:10: Executable path is not absolute: pkill -f "domacdesk --"
+		if [ -e /usr/bin/pkill ]; then
+			sed -i "s|pkill|/usr/bin/pkill|g" /usr/lib/systemd/system/domacdesk.service
+		fi
+		systemctl daemon-reload
+		systemctl enable domacdesk
+		systemctl start domacdesk
+	fi
+fi

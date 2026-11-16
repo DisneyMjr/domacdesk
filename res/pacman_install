@@ -1,0 +1,47 @@
+# arg 1:  the new package version
+#pre_install() {
+#}
+
+# arg 1:  the new package version
+post_install() {
+	# do something here
+	cp /usr/share/domacdesk/files/domacdesk.service /etc/systemd/system/domacdesk.service
+	cp /usr/share/domacdesk/files/domacdesk.desktop /usr/share/applications/
+	cp /usr/share/domacdesk/files/domacdesk-link.desktop /usr/share/applications/
+	systemctl daemon-reload
+	systemctl enable domacdesk
+	systemctl start domacdesk
+	update-desktop-database
+}
+
+# arg 1:  the new package version
+# arg 2:  the old package version
+pre_upgrade() {
+    systemctl stop domacdesk || true
+}
+
+# arg 1:  the new package version
+# arg 2:  the old package version
+post_upgrade() {
+	cp /usr/share/domacdesk/files/domacdesk.service /etc/systemd/system/domacdesk.service
+	cp /usr/share/domacdesk/files/domacdesk.desktop /usr/share/applications/
+	cp /usr/share/domacdesk/files/domacdesk-link.desktop /usr/share/applications/
+	systemctl daemon-reload
+	systemctl enable domacdesk
+	systemctl start domacdesk
+	update-desktop-database
+}
+
+# arg 1:  the old package version
+pre_remove() {
+	systemctl stop domacdesk || true
+	systemctl disable domacdesk || true
+	rm /etc/systemd/system/domacdesk.service || true
+}
+
+# arg 1:  the old package version
+post_remove() {
+	rm /usr/share/applications/domacdesk.desktop || true
+	rm /usr/share/applications/domacdesk-link.desktop || true
+	update-desktop-database
+}

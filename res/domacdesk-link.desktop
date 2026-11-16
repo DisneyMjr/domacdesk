@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=DomacDesk
+NoDisplay=true
+MimeType=x-scheme-handler/domacdesk;
+TryExec=domacdesk
+Exec=domacdesk %u
+Icon=domacdesk
+Terminal=false
+Type=Application
+StartupNotify=false
+StartupWMClass=domacdesk
