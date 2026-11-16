@@ -14,3 +14,22 @@ Para usar uma rede própria, suba os serviços `hbbs`/`hbbr` e troque esses valo
 
 ## Build
 Veja `build.py` e a pasta `docs/`.
+
+## Distribuição (Windows, Android e Linux)
+Os instaladores são gerados pelo GitHub Actions e publicados em **Releases**.
+
+1. Em *Settings > Actions > General > Workflow permissions*, marque **Read and write permissions**.
+2. Gere uma release criando uma tag:
+   ```bash
+   git tag v1.5.3
+   git push origin v1.5.3
+   ```
+   Ou use *Actions > Release DomacDesk > Run workflow*.
+3. Ao terminar (leva de 1 a 2 horas), a release terá:
+   - **Windows:** `.exe` e `.msi` para x64 e ARM64
+   - **Android:** APKs por arquitetura e APK universal
+   - **Linux:** pacotes `.deb` e AppImage
+
+Para assinar o APK, cadastre em *Settings > Secrets and variables > Actions* os segredos
+`ANDROID_SIGNING_KEY`, `ANDROID_ALIAS`, `ANDROID_KEY_STORE_PASSWORD` e `ANDROID_KEY_PASSWORD`.
+Sem eles, o APK sai sem a sua assinatura.
