@@ -877,14 +877,13 @@ jobs:
           files: |
             ${{steps.sign-domacdesk.outputs.signedReleaseFile}}
 
-      - name: Publish unsigned apk package
+      - name: Retain debug-signed APK for diagnostics only
         if: env.ANDROID_SIGNING_KEY == null && env.UPLOAD_ARTIFACT == 'true'
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          prerelease: ${{ inputs.upload-tag == 'nightly' || contains(inputs.upload-tag, '-') }}
-          tag_name: ${{ env.TAG_NAME }}
-          files: |
-            signed-apk/domacdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.apk
+          name: diagnostic-debug-signed-android-${{ matrix.job.arch }}
+          path: signed-apk/domacdesk-${{ env.VERSION }}-${{ matrix.job.arch }}.apk
+          if-no-files-found: error
 
   build-domacdesk-android-universal:
     needs: [build-domacdesk-android]
@@ -1062,14 +1061,13 @@ jobs:
           files: |
             ${{steps.sign-domacdesk.outputs.signedReleaseFile}}
 
-      - name: Publish unsigned apk package
+      - name: Retain debug-signed universal APK for diagnostics only
         if: env.ANDROID_SIGNING_KEY == null && env.UPLOAD_ARTIFACT == 'true'
-        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v1
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          prerelease: ${{ inputs.upload-tag == 'nightly' || contains(inputs.upload-tag, '-') }}
-          tag_name: ${{ env.TAG_NAME }}
-          files: |
-            signed-apk/domacdesk-${{ env.VERSION }}-universal${{ env.suffix }}.apk
+          name: diagnostic-debug-signed-android-universal${{ env.suffix }}
+          path: signed-apk/domacdesk-${{ env.VERSION }}-universal${{ env.suffix }}.apk
+          if-no-files-found: error
 
   build-domacdesk-linux:
     needs: [generate-bridge]

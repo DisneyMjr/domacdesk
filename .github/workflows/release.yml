@@ -4,16 +4,16 @@ name: Release DomacDesk
 # (.deb e AppImage) e publica tudo em Releases.
 #
 # Como usar:
-#   - Crie uma tag:  git tag v1.5.3 && git push origin v1.5.3
+#   - Crie uma tag nova; não reutilize uma versão já distribuída.
 #   - Ou rode manualmente em Actions > Release DomacDesk > Run workflow
 
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag da release (ex.: v1.5.3)"
+        description: "Tag NOVA da release (ex.: v1.5.3-1; nunca reutilize uma tag existente)"
         required: true
-        default: "v1.5.3"
+        default: "v1.5.3-1"
   push:
     tags:
       - 'v[0-9]+.[0-9]+.[0-9]+'

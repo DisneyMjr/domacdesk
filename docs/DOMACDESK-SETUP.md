@@ -82,6 +82,8 @@ Para Android, configure os secrets `ANDROID_SIGNING_KEY` (keystore em base64),
 `ANDROID_ALIAS`, `ANDROID_KEY_STORE_PASSWORD` e `ANDROID_KEY_PASSWORD`.
 Sem esses secrets, o build usa a assinatura de depuração gerada no runner,
 que não fornece uma identidade estável para atualizar instalações existentes.
+Esses APKs ficam somente nos artefatos do Actions, identificados como
+`diagnostic-debug-signed-android-*`; não são publicados nas Releases.
 Assine a distribuição com o keystore existente; não desinstale o aplicativo
 para contornar incompatibilidade de assinatura, pois isso pode apagar seus dados.
 Assinatura de executáveis Windows depende de certificado/serviço externo;
