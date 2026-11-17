@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Downloads e configuração da infraestrutura própria do DomacDesk."
+    />
+    <title>DomacDesk · Central de conexão</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header class="wrap">
+      <a class="brand" href="/" aria-label="DomacDesk, início"
+        ><span class="brand-icon">D</span>DomacDesk<span class="tag"
+          >CENTRAL</span
+        ></a
+      >
+      <nav aria-label="Principal">
+        <a href="#downloads">Downloads</a
+        ><a href="#configuracao">Configuração</a
+        ><a href="https://github.com/DisneyMjr/domacdesk">Código aberto ↗</a>
+      </nav>
+    </header>
+    <main class="wrap">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">SUA REDE. SEU CONTROLE.</p>
+          <h1>
+            Um ponto de partida<br />para conectar <em>seus dispositivos.</em>
+          </h1>
+          <p class="intro">
+            Baixe o DomacDesk e configure a infraestrutura sob seu controle. A
+            central organiza o acesso às informações; a conexão remota é
+            realizada pelo aplicativo.
+          </p>
+          <a class="button primary" href="#downloads"
+            >Baixar aplicativo <span>↓</span></a
+          >
+        </div>
+        <aside class="network-card" aria-label="Estado da infraestrutura">
+          <span class="pill">CENTRAL WEB PUBLICADA</span>
+          <div class="network-node">
+            <span>01</span>
+            <div>
+              <strong>Seu computador</strong><small>Aplicativo DomacDesk</small>
+            </div>
+          </div>
+          <i></i>
+          <div class="network-node waiting">
+            <span>02</span>
+            <div>
+              <strong>Servidor próprio</strong
+              ><small id="network-state">Aguardando infraestrutura</small>
+            </div>
+          </div>
+          <i></i>
+          <div class="network-node">
+            <span>03</span>
+            <div>
+              <strong>Dispositivo remoto</strong
+              ><small>Mesmo servidor e chave pública</small>
+            </div>
+          </div>
+          <p>A página não substitui os serviços de conexão e relay.</p>
+        </aside>
+      </section>
+      <section class="status-banner" aria-labelledby="status-title">
+        <span class="status-dot"></span>
+        <div>
+          <h2 id="status-title">Verificando configuração…</h2>
+          <p id="status-detail" role="status">
+            Consultando apenas a configuração da central.
+          </p>
+        </div>
+      </section>
+      <section id="downloads">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">COMECE PELO APLICATIVO</p>
+            <h2>Downloads do DomacDesk</h2>
+          </div>
+          <span class="version">Pré-release 1.5.3-1</span>
+        </div>
+        <div class="download-grid">
+          <article class="card">
+            <span class="platform">WINDOWS · X64</span>
+            <h3>Portátil</h3>
+            <p>
+              Abra sem instalar um serviço. Faça backup da configuração antes de
+              atualizar.
+            </p>
+            <a
+              class="button primary"
+              href="https://github.com/DisneyMjr/domacdesk/releases/download/v1.5.3-1/domacdesk-1.5.3-x86_64.exe"
+              >Baixar EXE <span>↓</span></a
+            ><small>Pacote sem assinatura Authenticode.</small>
+          </article>
+          <article class="card">
+            <span class="platform">WINDOWS · X64</span>
+            <h3>Instalador MSI</h3>
+            <p>
+              Para instalação no Windows. Preserve os dados e a configuração
+              existentes.
+            </p>
+            <a
+              class="button secondary"
+              href="https://github.com/DisneyMjr/domacdesk/releases/download/v1.5.3-1/domacdesk-1.5.3-x86_64.msi"
+              >Baixar MSI <span>↓</span></a
+            ><small>Pacote sem assinatura Authenticode.</small>
+          </article>
+          <article class="card">
+            <span class="platform">OUTRAS PLATAFORMAS</span>
+            <h3>Linux e ARM64</h3>
+            <p>
+              Confira os pacotes, notas de validação e arquivos de integridade
+              na release.
+            </p>
+            <a
+              class="button secondary"
+              href="https://github.com/DisneyMjr/domacdesk/releases/tag/v1.5.3-1"
+              >Ver todos os pacotes <span>↗</span></a
+            ><a
+              class="checksum"
+              href="https://github.com/DisneyMjr/domacdesk/releases/download/v1.5.3-1/SHA256SUMS.txt"
+              >Ver SHA256SUMS.txt</a
+            >
+          </article>
+        </div>
+      </section>
+      <section id="configuracao" class="setup">
+        <div>
+          <p class="eyebrow">UMA CONFIGURAÇÃO NOS DOIS LADOS</p>
+          <h2>Conecte à sua rede.</h2>
+          <p>
+            Quando o servidor estiver instalado, informe estes campos em
+            <strong>Configurações → Rede → Servidor ID/Relay</strong> nos dois
+            aplicativos.
+          </p>
+          <ol>
+            <li>
+              Instale o servidor de conexão e o relay em infraestrutura própria.
+            </li>
+            <li>
+              Confira o endereço e a chave pública por um canal confiável.
+            </li>
+            <li>Configure os dois dispositivos e teste uma sessão real.</li>
+          </ol>
+          <p class="note">
+            A edição OSS não precisa de conta no servidor público. O código
+            livre de origem e sua licença continuam preservados.
+          </p>
+        </div>
+        <div class="card config-card">
+          <h3>Dados de conexão</h3>
+          <p id="config-note">
+            Os campos ficam indisponíveis até cadastrar um servidor real.
+          </p>
+          <dl>
+            <div>
+              <dt>Servidor ID</dt>
+              <dd id="id-server">Não configurado</dd>
+            </div>
+            <div>
+              <dt>Servidor relay</dt>
+              <dd id="relay-server">Não configurado</dd>
+            </div>
+            <div>
+              <dt>Chave pública</dt>
+              <dd id="public-key">Não configurada</dd>
+            </div>
+            <div>
+              <dt>Servidor API</dt>
+              <dd>Deixe vazio para servidor OSS sem API.</dd>
+            </div>
+          </dl>
+          <button id="copy-config" class="button secondary" disabled>
+            Copiar dados de conexão
+          </button>
+          <p id="copy-result" role="status"></p>
+          <small
+            >Apenas a chave pública é distribuída. Nunca informe uma chave
+            privada aqui.</small
+          >
+        </div>
+      </section>
+      <section class="faq">
+        <p class="eyebrow">ANTES DE CONECTAR</p>
+        <h2>O que esta central faz?</h2>
+        <details>
+          <summary>Já posso conectar só por esta página?</summary>
+          <p>
+            Não. A central fornece downloads e configuração. O aplicativo
+            precisa de um servidor de conexão e relay acessível. Não há controle
+            remoto pelo navegador nesta versão.
+          </p>
+        </details>
+        <details>
+          <summary>Por que o app ainda pede login no RustDesk?</summary>
+          <p>
+            O aplicativo distribuído ainda usa o serviço público quando nenhum
+            servidor próprio está configurado. A página não altera essa
+            configuração automaticamente. Depois de ativar a infraestrutura
+            própria, os dois dispositivos devem receber seu servidor e chave.
+          </p>
+        </details>
+        <details>
+          <summary>Tenho que pagar para usar?</summary>
+          <p>
+            Nenhum serviço pago foi contratado para esta central. A hospedagem
+            do servidor de conexão é uma etapa separada. Recursos Always Free de
+            outro provedor dependem de cadastro, disponibilidade e limites; não
+            habilite uma conta paga para contornar falta de capacidade.
+          </p>
+        </details>
+      </section>
+    </main>
+    <footer class="wrap">
+      <span>DomacDesk · infraestrutura sob seu controle.</span
+      ><a href="https://github.com/DisneyMjr/domacdesk/blob/main/LICENCE"
+        >GNU AGPL-3.0 · Código e licença ↗</a
+      >
+    </footer>
+  </body>
+</html>

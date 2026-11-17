@@ -21,6 +21,11 @@ originais presentes nos arquivos-fonte. Quem usar a versão modificada por rede 
 ao código-fonte correspondente.
 
 ## Servidor próprio
+Foi preparada uma [central de downloads/configuração](central/README.md) e um
+[pacote de implantação do servidor OSS](deploy/server/README.md). A central não
+substitui o servidor de conexão: a VM e os testes entre dois dispositivos ainda
+precisam ser concluídos antes de considerar a rede própria ativa.
+
 Por padrão o app ainda aponta para servidores públicos de terceiros
 (`libs/hbb_common/src/config.rs`: `RENDEZVOUS_SERVERS` e `RS_PUB_KEY`).
 Para usar uma rede própria, suba os serviços `hbbs`/`hbbr` e configure servidor ID,

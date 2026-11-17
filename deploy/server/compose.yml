@@ -1,0 +1,22 @@
+# Prepare on a dedicated Linux server. This does not provision a VM or open a firewall.
+services:
+  hbbs:
+    image: rustdesk/rustdesk-server:1.1.16@sha256:8ecdab65deb7c84652a626380e31d11a8f1fbafd97916d57f95c20628f943c00
+    command: ["hbbs", "-r", "${DOMACDESK_PUBLIC_HOST:?Define DOMACDESK_PUBLIC_HOST without protocol or port}:21117", "-k", "_"]
+    volumes: ["./data:/root"]
+    ports: ["21115:21115/tcp", "21116:21116/tcp", "21116:21116/udp"]
+    restart: unless-stopped
+    security_opt: ["no-new-privileges:true"]
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+  hbbr:
+    image: rustdesk/rustdesk-server:1.1.16@sha256:8ecdab65deb7c84652a626380e31d11a8f1fbafd97916d57f95c20628f943c00
+    command: ["hbbr", "-k", "_"]
+    volumes: ["./data:/root"]
+    ports: ["21117:21117/tcp"]
+    restart: unless-stopped
+    security_opt: ["no-new-privileges:true"]
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}

@@ -1,0 +1,26 @@
+name: Validate DomacDesk central
+on:
+  push:
+    branches: [main]
+    paths: ['central/**', 'deploy/server/**', '.github/workflows/central.yml']
+  pull_request:
+    paths: ['central/**', 'deploy/server/**', '.github/workflows/central.yml']
+permissions:
+  contents: read
+jobs:
+  central:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: central
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: central/package-lock.json
+      - run: npm ci
+      - run: npm test
+      - run: DOMACDESK_PUBLIC_HOST=server.example.invalid docker compose -f ../deploy/server/compose.yml config --quiet
+      - run: npx wrangler deploy --dry-run
