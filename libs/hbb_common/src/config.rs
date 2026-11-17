@@ -917,6 +917,10 @@ impl Config {
     }
 
     pub fn path<P: AsRef<Path>>(p: P) -> PathBuf {
+        #[cfg(test)]
+        if let Some(root) = std::env::var_os("DOMACDESK_TEST_CONFIG_DIR") {
+            return PathBuf::from(root).join(p);
+        }
         #[cfg(any(target_os = "android", target_os = "ios"))]
         {
             let mut path: PathBuf = APP_DIR.read().unwrap().clone().into();

@@ -15,6 +15,9 @@ Para usar uma rede própria, suba os serviços `hbbs`/`hbbr` e troque esses valo
 ## Build
 Veja `build.py` e a pasta `docs/`.
 
+Consulte [configuração, preservação de dados e testes](docs/DOMACDESK-SETUP.md)
+para preparar o servidor, assinaturas, dependências nativas e atualizações.
+
 ## Distribuição (Windows, Android e Linux)
 Os instaladores são gerados pelo GitHub Actions e publicados em **Releases**.
 

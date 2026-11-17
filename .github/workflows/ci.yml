@@ -15,7 +15,7 @@ on:
       - "README.md"
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - ".github/**"
       - "docs/**"
@@ -66,6 +66,8 @@ jobs:
   #       args: --locked
 
   build:
+    env:
+      DOMACDESK_TEST_CONFIG_DIR: "${{ github.workspace }}/.test-config"
     name: ${{ matrix.job.target }} (${{ matrix.job.os }})
     runs-on: ${{ matrix.job.os }}
     strategy:
@@ -82,7 +84,7 @@ jobs:
           # - { target: x86_64-pc-windows-gnu       , os: windows-2022                  }
           # - { target: x86_64-pc-windows-msvc      , os: windows-2022                  }
           # - { target: aarch64-pc-windows-msvc     , os: windows-11-arm                }
-          - { target: x86_64-unknown-linux-gnu    , os: ubuntu-24.04                  }
+          - { target: x86_64-unknown-linux-gnu    , os: ubuntu-24.04, use-cross: false }
           # - { target: x86_64-unknown-linux-musl   , os: ubuntu-20.04, use-cross: true }
     steps:
     - name: Free Disk Space (Ubuntu)
@@ -181,6 +183,9 @@ jobs:
         command: build
         args: --locked --target=${{ matrix.job.target }}
 
+    - name: Run shared Rust tests
+      run: cargo test --locked --target=${{ matrix.job.target }} -p hbb_common -p base --lib
+
     - name: clean
       shell: bash
       run: |
@@ -238,7 +243,6 @@ jobs:
             ;;
         esac;
 
-        #deprecated echo ::set-output name=CARGO_TEST_OPTIONS::${CARGO_TEST_OPTIONS}
         echo "CARGO_TEST_OPTIONS=${CARGO_TEST_OPTIONS}" >> $GITHUB_ENV
         echo "CARGO_TEST_OPTIONS=${CARGO_TEST_OPTIONS}" >> $GITHUB_OUTPUT
 

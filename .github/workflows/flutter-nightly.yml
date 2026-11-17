@@ -4,6 +4,9 @@ on:
   # Build noturno automatico desativado; rode manualmente se quiser.
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   run-flutter-nightly-build:
     uses: ./.github/workflows/flutter-build.yml

@@ -71,7 +71,7 @@ mod tests {
     use std::io::Cursor;
 
     const DOMACDESK_SHA256: &str =
-        "304ca1638c5effa6832e0e15b958a8f74847efe4df9c3f3187216e921c168fed";
+        "0e0f4e49c42e13d70d2b525c53f8ab01248f28bdb338cd564907f698b6266f42";
 
     #[test]
     fn verifies_and_rejects_sha256() {

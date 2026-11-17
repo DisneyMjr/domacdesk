@@ -17,6 +17,11 @@ cert.pfx
 *png
 *svg
 *jpg
+!res/*.png
+!res/*.svg
+!flutter/assets/*.png
+!flutter/assets/*.svg
+!flutter/android/app/src/main/res/mipmap-*/*.png
 sciter.dll
 **pdb
 src/bridge_generated.rs
