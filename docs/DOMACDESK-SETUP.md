@@ -66,6 +66,8 @@ Flutter 3.24.5 nos destinos padrão; Flutter 3.44 nos destinos ARM64 indicados;
 ponte `flutter_rust_bridge` 1.80.1; bibliotecas nativas pelo vcpkg no commit
 definido em `vcpkg.json`; SDKs da plataforma e compilador C/C++.
 No Windows, execute em um Developer Command Prompt com Visual C++ e Windows SDK.
+Ative o Modo de Desenvolvedor do Windows para permitir os links simbólicos usados
+pelos plugins Flutter e por testes de segurança de transferência de arquivos.
 Os arquivos da ponte são gerados pelo CI e não estão versionados. Apenas executar
 `flutter test` em um clone novo, sem preparar a ponte, não valida o aplicativo.
 
@@ -78,8 +80,10 @@ não reutilize tags de versões já distribuídas.
 
 Para Android, configure os secrets `ANDROID_SIGNING_KEY` (keystore em base64),
 `ANDROID_ALIAS`, `ANDROID_KEY_STORE_PASSWORD` e `ANDROID_KEY_PASSWORD`.
-Sem esses secrets, o APK de release é publicado sem assinatura de distribuição
-e precisa ser assinado antes de ser instalado. Preserve o keystore existente.
+Sem esses secrets, o build usa a assinatura de depuração gerada no runner,
+que não fornece uma identidade estável para atualizar instalações existentes.
+Assine a distribuição com o keystore existente; não desinstale o aplicativo
+para contornar incompatibilidade de assinatura, pois isso pode apagar seus dados.
 Assinatura de executáveis Windows depende de certificado/serviço externo;
 o workflow usa `SIGN_BASE_URL` e `SIGN_SECRET_KEY` quando configurados.
 

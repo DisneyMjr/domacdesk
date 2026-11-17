@@ -5,6 +5,7 @@ on:
     inputs:
         upload-artifact:
           type: boolean
+          default: true
         target:
             description: 'Target'
             required: true

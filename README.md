@@ -10,7 +10,8 @@ ao código-fonte correspondente.
 ## Servidor próprio
 Por padrão o app ainda aponta para servidores públicos de terceiros
 (`libs/hbb_common/src/config.rs`: `RENDEZVOUS_SERVERS` e `RS_PUB_KEY`).
-Para usar uma rede própria, suba os serviços `hbbs`/`hbbr` e troque esses valores.
+Para usar uma rede própria, suba os serviços `hbbs`/`hbbr` e configure servidor ID,
+relay e chave pública nas configurações de rede dos dois clientes, sem recompilar.
 
 ## Build
 Veja `build.py` e a pasta `docs/`.
