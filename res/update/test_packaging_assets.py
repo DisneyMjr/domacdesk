@@ -8,6 +8,19 @@ ROOT = Path(__file__).resolve().parents[2]
 
 
 class PackagingAssetTests(unittest.TestCase):
+    def test_portable_embedded_images_exist(self):
+        source = ROOT / "libs/portable/src/ui.rs"
+        for asset in re.findall(r'include_bytes!\("([^\"]+)"\)', source.read_text(encoding="utf-8")):
+            with self.subTest(asset=asset):
+                self.assertTrue((source.parent / asset).is_file())
+
+    def test_appimage_uses_packaged_executable(self):
+        for recipe in (ROOT / "appimage").glob("AppImageBuilder-*.yml"):
+            with self.subTest(recipe=recipe.name):
+                executable = re.search(r'^\s+exec:\s*(\S+)', recipe.read_text(encoding="utf-8"), re.MULTILINE)
+                self.assertIsNotNone(executable)
+                self.assertEqual(executable.group(1), "usr/share/domacdesk/domacdesk")
+
     def test_linux_package_icons_exist(self):
         source = (ROOT / "build.py").read_text(encoding="utf-8")
         for name in set(re.findall(r"res/([\w@.-]+\.(?:png|svg))", source)):

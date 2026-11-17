@@ -19,7 +19,7 @@ AppDir:
     name: domacdesk
     icon: domacdesk
     version: 1.5.3
-    exec: usr/share/DisneyMjr/domacdesk
+    exec: usr/share/domacdesk/domacdesk
     exec_args: $@
   apt:
     arch:
