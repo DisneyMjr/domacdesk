@@ -16,7 +16,7 @@ struct Fixture {
 }
 
 fn artifact() -> Value {
-    json!({"platform":"windows","arch":"x86_64","format":"exe","url":"https://github.com/rustdesk/rustdesk/releases/download/v1.4.6/domacdesk-1.4.6-x86_64.exe","file_name":"domacdesk-1.4.6-x86_64.exe","size":123456,"sha256":SHA256})
+    json!({"platform":"windows","arch":"x86_64","format":"exe","url":"https://github.com/DisneyMjr/domacdesk/releases/download/v1.4.6/domacdesk-1.4.6-x86_64.exe","file_name":"domacdesk-1.4.6-x86_64.exe","size":123456,"sha256":SHA256})
 }
 
 fn metadata() -> Value {
@@ -86,7 +86,7 @@ fn verify_with_query(
             requirements: requirements(*query),
             expected_package_id: PUBLIC_UPDATE_PACKAGE_ID,
             artifact_url_policy: ArtifactUrlPolicy::ExactPrefix(
-                "https://github.com/rustdesk/rustdesk/releases/download/v1.4.6/",
+                "https://github.com/DisneyMjr/domacdesk/releases/download/v1.4.6/",
             ),
             trusted_keys: &trusted_keys,
         },
@@ -135,8 +135,8 @@ fn rejects_schema_policy_artifact_and_url_mismatches() {
         ("package_id", json!("custom"), false), ("signature_key_id", json!("different-key"), false),
         ("arch", json!("x86"), true),
         ("sha256", json!("not-a-sha256"), true),
-        ("url", json!("https://github.com/rustdesk/rustdesk/releases/download/v1.4.7/domacdesk-1.4.6-x86_64.exe"), true),
-        ("url", json!("https://github.com/rustdesk/rustdesk/releases/download/v1.4.6/other.exe"), true),
+        ("url", json!("https://github.com/DisneyMjr/domacdesk/releases/download/v1.4.7/domacdesk-1.4.6-x86_64.exe"), true),
+        ("url", json!("https://github.com/DisneyMjr/domacdesk/releases/download/v1.4.6/other.exe"), true),
     ];
     for (key, value, artifact_field) in cases {
         let mut metadata = metadata();
@@ -160,7 +160,7 @@ fn rejects_artifact_file_name_path_components() {
         let mut invalid_metadata = metadata();
         invalid_metadata["artifacts"][0]["file_name"] = json!(file_name);
         invalid_metadata["artifacts"][0]["url"] = json!(format!(
-            "https://github.com/rustdesk/rustdesk/releases/download/v1.4.6/{file_name}"
+            "https://github.com/DisneyMjr/domacdesk/releases/download/v1.4.6/{file_name}"
         ));
         let fixture = sign_fixture(invalid_metadata, KEY_ID);
 
@@ -175,8 +175,8 @@ fn rejects_artifact_file_name_path_components() {
 #[test]
 fn verifies_metadata_generated_by_python_release_script_fixture() {
     const PYTHON_KEY_ID: &str = "python-test-ed25519-main";
-    let metadata = br#"{"schema_version":1,"app":"domacdesk","package_id":"domacdesk","version":"1.4.6","release_id":"v1.4.6","published_at":"2026-05-14T00:00:00Z","signature_key_id":"python-test-ed25519-main","artifacts":[{"platform":"windows","arch":"x86_64","format":"exe","url":"https://github.com/rustdesk/rustdesk/releases/download/v1.4.6/domacdesk-1.4.6-x86_64.exe","file_name":"domacdesk-1.4.6-x86_64.exe","size":8,"sha256":"304ca1638c5effa6832e0e15b958a8f74847efe4df9c3f3187216e921c168fed"}]}"#;
-    let signature = br#"{"schema_version":1,"algorithm":"ed25519","key_id":"python-test-ed25519-main","signature":"ZMcod9VNaEGTYK0gIfGmMQ44HAvrYAkYDyIL9JTKjzUH+hVFYs8KpvnGSlteAHwqiJuJDdiKBVCPEdtcRRAJCA=="}"#;
+    let metadata = br#"{"schema_version":1,"app":"domacdesk","package_id":"domacdesk","version":"1.4.6","release_id":"v1.4.6","published_at":"2026-05-14T00:00:00Z","signature_key_id":"python-test-ed25519-main","artifacts":[{"platform":"windows","arch":"x86_64","format":"exe","url":"https://github.com/DisneyMjr/domacdesk/releases/download/v1.4.6/domacdesk-1.4.6-x86_64.exe","file_name":"domacdesk-1.4.6-x86_64.exe","size":9,"sha256":"0e0f4e49c42e13d70d2b525c53f8ab01248f28bdb338cd564907f698b6266f42"}]}"#;
+    let signature = br#"{"schema_version":1,"algorithm":"ed25519","key_id":"python-test-ed25519-main","signature":"JWke+nagkso3TniUKieAxQ6hPdhBRyug8aUrj0/0s4QAledDxr9fUe27q2NnUbyTpD43Bb3lmuxJaJOyz7KLAA=="}"#;
     let trusted_key = TrustedUpdateKey {
         key_id: PYTHON_KEY_ID,
         algorithm: "ed25519",
@@ -194,7 +194,7 @@ fn verifies_metadata_generated_by_python_release_script_fixture() {
             requirements: requirements(query()),
             expected_package_id: PUBLIC_UPDATE_PACKAGE_ID,
             artifact_url_policy: ArtifactUrlPolicy::ExactPrefix(
-                "https://github.com/rustdesk/rustdesk/releases/download/v1.4.6/",
+                "https://github.com/DisneyMjr/domacdesk/releases/download/v1.4.6/",
             ),
             trusted_keys: &trusted_keys,
         },

@@ -15,7 +15,7 @@ on:
       - "README.md"
   push:
     branches:
-      - master
+      - main
     paths-ignore:
       - ".github/**"
       - "docs/**"
@@ -180,6 +180,9 @@ jobs:
         use-cross: ${{ matrix.job.use-cross }}
         command: build
         args: --locked --target=${{ matrix.job.target }}
+
+    - name: Run shared Rust tests
+      run: cargo test --locked --target=${{ matrix.job.target }} -p hbb_common -p base --lib
 
     - name: clean
       shell: bash

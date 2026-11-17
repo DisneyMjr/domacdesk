@@ -1097,8 +1097,8 @@ pub(crate) fn release_id_from_update_url(update_url: &str) -> ResultType<String>
     };
     let segments = segments.collect::<Vec<_>>();
     let release_id = match segments.as_slice() {
-        ["domacdesk", "domacdesk", "releases", "tag", release_id] => *release_id,
-        ["domacdesk", "domacdesk", "releases", "tag", release_id, ""] => *release_id,
+        ["DisneyMjr", "domacdesk", "releases", "tag", release_id] => *release_id,
+        ["DisneyMjr", "domacdesk", "releases", "tag", release_id, ""] => *release_id,
         _ => bail!(
             "Update URL is not a DomacDesk release tag URL: {}",
             update_url
@@ -1151,8 +1151,12 @@ fn clear_software_update_url() {
 }
 
 fn process_software_update_check_response(bytes: Bytes) -> ResultType<()> {
-    let resp: hbb_common::VersionCheckResponse = serde_json::from_slice(&bytes)?;
-    let response_url = resp.url;
+    #[derive(serde::Deserialize)]
+    struct Release {
+        html_url: String,
+    }
+    let resp: Release = serde_json::from_slice(&bytes)?;
+    let response_url = resp.html_url;
     let release_id = release_id_from_update_url(&response_url)?;
     let latest_release_version = display_version_from_release_id(&release_id)?;
 
@@ -1173,26 +1177,28 @@ fn process_software_update_check_response(bytes: Bytes) -> ResultType<()> {
     Ok(())
 }
 
-// No need to check `danger_accept_invalid_cert` for now.
-// Because the url is always `https://api.rustdesk.com/version/latest`.
+// Release discovery uses the DomacDesk repository; downloads still require signed metadata.
 #[tokio::main(flavor = "current_thread")]
 pub async fn do_check_software_update() -> hbb_common::ResultType<()> {
-    let (request, url) =
-        hbb_common::version_check_request(hbb_common::VER_TYPE_DOMACDESK_CLIENT.to_string());
+    let url = "https://api.github.com/repos/DisneyMjr/domacdesk/releases/latest";
     let proxy_conf = Config::get_socks();
-    let tls_url = get_url_for_tls(&url, &proxy_conf);
+    let tls_url = get_url_for_tls(url, &proxy_conf);
     let tls_type = get_cached_tls_type(tls_url);
     let is_tls_not_cached = tls_type.is_none();
     let tls_type = tls_type.unwrap_or(TlsType::Rustls);
     let client = create_http_client_async(tls_type, false);
-    let latest_release_response: ResultType<_> = match client.post(&url).json(&request).send().await
+    let latest_release_response: ResultType<_> = match client
+        .get(url)
+        .header("User-Agent", "DomacDesk")
+        .send()
+        .await
     {
         Ok(resp) => Ok((tls_type, resp)),
         Err(err) => {
             if is_tls_not_cached && err.is_request() {
                 let tls_type = TlsType::NativeTls;
                 let client = create_http_client_async(tls_type, false);
-                match client.post(&url).json(&request).send().await {
+                match client.get(url).header("User-Agent", "DomacDesk").send().await {
                     Ok(resp) => Ok((tls_type, resp)),
                     Err(err) => Err(err.into()),
                 }
@@ -3120,7 +3126,7 @@ mod tests {
 
     #[test]
     fn parses_stable_domacdesk_release_url() {
-        let update_url = "https://github.com/rustdesk/rustdesk/releases/tag/v1.4.6";
+        let update_url = "https://github.com/DisneyMjr/domacdesk/releases/tag/v1.4.6";
 
         assert_eq!(release_id_from_update_url(update_url).unwrap(), "v1.4.6");
         assert_eq!(display_version_from_release_id("v1.4.6").unwrap(), "1.4.6");
@@ -3133,19 +3139,21 @@ mod tests {
     #[test]
     fn rejects_untrusted_release_urls_and_unstable_versions() {
         for update_url in [
-            "http://github.com/rustdesk/rustdesk/releases/tag/v1.4.6",
+            "http://github.com/DisneyMjr/domacdesk/releases/tag/v1.4.6",
             "https://github.com:8443/DisneyMjr/domacdesk/releases/tag/v1.4.6",
             "https://github.com:443/DisneyMjr/domacdesk/releases/tag/v1.4.6",
-            "https://user@github.com/rustdesk/rustdesk/releases/tag/v1.4.6",
+            "https://user@github.com/DisneyMjr/domacdesk/releases/tag/v1.4.6",
             "https://example.com/DisneyMjr/domacdesk/releases/tag/v1.4.6",
             "https://github.com/other/domacdesk/releases/tag/v1.4.6",
+            "https://github.com/rustdesk/rustdesk/releases/tag/v1.4.6",
+            "https://github.com/domacdesk/domacdesk/releases/tag/v1.4.6",
             "https://github.com/rustdesk/other/releases/tag/v1.4.6",
-            "https://github.com/rustdesk/rustdesk/releases/download/v1.4.6/domacdesk.exe",
-            "https://github.com/rustdesk/rustdesk/releases/tag/v1.4.6?x=1",
-            "https://github.com/rustdesk/rustdesk/releases/tag/v1.4.6#asset",
-            "https://github.com/rustdesk/rustdesk/releases/tag/v1.4.6/extra",
-            "https://github.com/rustdesk/rustdesk/releases/tag/v1%2F4%2F6",
-            "https://github.com/rustdesk/rustdesk/releases/tag/%2e%2e",
+            "https://github.com/DisneyMjr/domacdesk/releases/download/v1.4.6/domacdesk.exe",
+            "https://github.com/DisneyMjr/domacdesk/releases/tag/v1.4.6?x=1",
+            "https://github.com/DisneyMjr/domacdesk/releases/tag/v1.4.6#asset",
+            "https://github.com/DisneyMjr/domacdesk/releases/tag/v1.4.6/extra",
+            "https://github.com/DisneyMjr/domacdesk/releases/tag/v1%2F4%2F6",
+            "https://github.com/DisneyMjr/domacdesk/releases/tag/%2e%2e",
         ] {
             assert!(release_id_from_update_url(update_url).is_err());
         }
