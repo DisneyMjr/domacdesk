@@ -274,7 +274,7 @@ pub(super) mod tests {
 
     #[test]
     fn staged_files_protect_contents_and_remove_unverified_data() {
-        const HASH: &str = "304ca1638c5effa6832e0e15b958a8f74847efe4df9c3f3187216e921c168fed";
+        const HASH: &str = "0e0f4e49c42e13d70d2b525c53f8ab01248f28bdb338cd564907f698b6266f42";
         let root = std::env::temp_dir().join(format!("domacdesk-staging-{}", uuid::Uuid::new_v4()));
         fs::create_dir(&root).unwrap();
         let path = root.join("input.tmp");
@@ -410,7 +410,7 @@ pub(super) mod tests {
 
         let root = std::env::temp_dir().join(format!("domacdesk-copy-{}", uuid::Uuid::new_v4()));
         fs::create_dir(&root).unwrap();
-        let requested = root.join("package 中文 !&^@().tmp");
+        let requested = root.join("package ä¸­æ–‡ !&^@().tmp");
         let mut input = ProtectedInstallFile::new(&requested, b"verified installer").unwrap();
         release_copy_fixture(&mut input);
         let directory = input.path().parent().unwrap().to_owned();

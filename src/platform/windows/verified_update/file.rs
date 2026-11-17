@@ -267,11 +267,11 @@ mod tests {
         std::fs::write(&source_path, b"domacdesk").unwrap();
         let verified_file = copy_and_verify_update_file_sha256(
             source_path.to_str().unwrap(),
-            "304ca1638c5effa6832e0e15b958a8f74847efe4df9c3f3187216e921c168fed",
+            "0e0f4e49c42e13d70d2b525c53f8ab01248f28bdb338cd564907f698b6266f42",
         )
         .unwrap();
 
-        assert!(verified_file.verify_size(8).is_ok());
+        assert!(verified_file.verify_size(9).is_ok());
         assert!(verified_file.verify_size(7).is_err());
 
         verified_file.cleanup();
