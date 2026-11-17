@@ -114,6 +114,11 @@ manualmente pelas Releases; não desative a verificação de assinatura.
 
 ## Verificação operacional pendente
 
+Os recursos gráficos ausentes foram restaurados sem alterações do RustDesk,
+commit `54416dcaa127d209f2cfbdc4b08235bae78ccfe6`, sob a licença AGPL-3.0
+mantida neste repositório. Os ícones herdados podem ser personalizados depois;
+as imagens necessárias ao empacotamento e à interface devem permanecer versionadas.
+
 Compilar e passar testes não comprova uma sessão remota real. Depois de configurar
 o servidor, valide em duas máquinas: conexão por ID, senha/aprovação, teclado,
 mouse, vídeo, áudio, transferência de arquivos, relay forçado, reconexão e

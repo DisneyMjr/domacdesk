@@ -410,7 +410,7 @@ pub(super) mod tests {
 
         let root = std::env::temp_dir().join(format!("domacdesk-copy-{}", uuid::Uuid::new_v4()));
         fs::create_dir(&root).unwrap();
-        let requested = root.join("package ä¸­æ–‡ !&^@().tmp");
+        let requested = root.join("package 中文 !&^@().tmp");
         let mut input = ProtectedInstallFile::new(&requested, b"verified installer").unwrap();
         release_copy_fixture(&mut input);
         let directory = input.path().parent().unwrap().to_owned();
