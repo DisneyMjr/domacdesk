@@ -22,18 +22,22 @@ para preparar o servidor, assinaturas, dependências nativas e atualizações.
 ## Distribuição (Windows, Android e Linux)
 Os instaladores são gerados pelo GitHub Actions e publicados em **Releases**.
 
-1. Em *Settings > Actions > General > Workflow permissions*, marque **Read and write permissions**.
-2. Gere uma release criando uma tag:
+1. Os workflows de publicação já declaram `contents: write`; eventuais políticas da organização precisam permitir essa publicação.
+2. Gere uma release criando uma **tag nova**, compatível com a versão do código. Nunca reutilize uma tag já distribuída. Por exemplo, para a próxima revisão de `1.5.3`:
    ```bash
-   git tag v1.5.3
-   git push origin v1.5.3
+   git tag v1.5.3-2
+   git push origin v1.5.3-2
    ```
    Ou use *Actions > Release DomacDesk > Run workflow*.
 3. Ao terminar (leva de 1 a 2 horas), a release terá:
    - **Windows:** `.exe` e `.msi` para x64 e ARM64
-   - **Android:** APKs por arquitetura e APK universal
+   - **Android:** APKs por arquitetura e APK universal, quando o keystore definitivo estiver configurado
    - **Linux:** pacotes `.deb` e AppImage
 
 Para assinar o APK, cadastre em *Settings > Secrets and variables > Actions* os segredos
 `ANDROID_SIGNING_KEY`, `ANDROID_ALIAS`, `ANDROID_KEY_STORE_PASSWORD` e `ANDROID_KEY_PASSWORD`.
-Sem eles, o APK sai sem a sua assinatura.
+Sem eles, APKs com a chave de depuração do runner ficam somente como artefatos
+`diagnostic-debug-signed-android-*` no Actions, sem publicação em Releases.
+Esses artefatos não oferecem uma identidade estável para atualizar instalações
+existentes. Preserve o keystore original e não desinstale para contornar uma
+incompatibilidade de assinatura.
