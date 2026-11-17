@@ -48,10 +48,14 @@ fixtures criptográficos Rust, sem precisar compilar o cliente inteiro.
 
 ```sh
 cargo metadata --locked --format-version 1
-cargo test --locked -p hbb_common -p base --lib
+DOMACDESK_TEST_CONFIG_DIR=/tmp/domacdesk-tests cargo test --locked -p hbb_common -p base --lib
 python -m pip install --only-binary=:all: --require-hashes -r res/update/update_metadata_requirements.txt
 python -m unittest discover -s res/update -p 'test_*.py'
 ```
+
+No PowerShell, defina `$env:DOMACDESK_TEST_CONFIG_DIR` para uma pasta temporária
+antes dos testes de configuração. Esse override só é compilado na suíte
+de testes do `hbb_common`; não muda o armazenamento do aplicativo distribuído.
 
 O arquivo de requisitos Python com hashes é específico para o runner Linux
 x86_64/Python 3.12. Em outra plataforma, use um ambiente separado com uma versão
