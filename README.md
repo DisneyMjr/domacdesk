@@ -2,6 +2,19 @@
 
 Software de acesso remoto, derivado de um projeto livre sob licença **GNU AGPL-3.0**.
 
+## Downloads validados
+
+A [pré-release v1.5.3-1](https://github.com/DisneyMjr/domacdesk/releases/tag/v1.5.3-1)
+contém os pacotes corrigidos e validados pelo CI:
+
+- Windows x64: [EXE portátil](https://github.com/DisneyMjr/domacdesk/releases/download/v1.5.3-1/domacdesk-1.5.3-x86_64.exe) ou [MSI](https://github.com/DisneyMjr/domacdesk/releases/download/v1.5.3-1/domacdesk-1.5.3-x86_64.msi).
+- Windows ARM64: EXE e MSI na mesma pré-release.
+- Linux x64/ARM64: DEB, RPM e AppImage; pacote Arch para x64.
+
+Faça backup antes de atualizar uma instalação existente. Os APKs Android exigem
+o keystore definitivo para distribuição; os builds de diagnóstico estão no Actions.
+Veja as notas da pré-release para os testes executados e limites operacionais.
+
 ## Licença
 Este projeto mantém a licença **GNU AGPL-3.0** (arquivo `LICENCE`) e os avisos de copyright
 originais presentes nos arquivos-fonte. Quem usar a versão modificada por rede tem direito
